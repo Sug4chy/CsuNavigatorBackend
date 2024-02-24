@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CsuNavigatorBackend.DomainServices\CsuNavigatorBackend.DomainServices.csproj" />
+    </ItemGroup>
+
 </Project>
