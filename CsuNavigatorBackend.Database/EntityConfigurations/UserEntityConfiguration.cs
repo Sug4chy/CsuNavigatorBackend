@@ -16,5 +16,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
         builder.HasOne(u => u.Profile)
             .WithOne(p => p.User)
             .HasForeignKey<User>(u => u.ProfileId);
+
+        builder.Property(u => u.Role).HasConversion<string>();
     }
 }

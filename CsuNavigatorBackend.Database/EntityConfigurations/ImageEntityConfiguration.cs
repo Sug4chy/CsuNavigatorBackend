@@ -8,7 +8,7 @@ public class ImageEntityConfiguration : IEntityTypeConfiguration<Image>
 {
     public void Configure(EntityTypeBuilder<Image> builder)
     {
-        builder.ToTable("image");
+        builder.ToTable("Image");
 
         builder.HasKey(i => i.Id);
         builder.HasIndex(i => i.FileName).IsUnique();
@@ -19,5 +19,7 @@ public class ImageEntityConfiguration : IEntityTypeConfiguration<Image>
         builder.HasOne(i => i.Map)
             .WithOne(m => m.Image)
             .HasForeignKey<Map>(m => m.ImageId);
+
+        builder.Property(i => i.ApplicationImageType).HasConversion<string>();
     }
 }

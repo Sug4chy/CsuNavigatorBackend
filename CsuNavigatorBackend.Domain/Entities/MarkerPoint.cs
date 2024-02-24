@@ -10,4 +10,7 @@ public class MarkerPoint : Entity
     public Edge? EdgeAsPoint2 { get; set; } 
 }
 
-public enum MarkerType { }
+public enum MarkerType
+{
+    
+}

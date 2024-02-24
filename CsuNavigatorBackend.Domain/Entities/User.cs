@@ -1,5 +1,4 @@
-﻿using System;
-namespace CsuNavigatorBackend.Domain.Entities;
+﻿namespace CsuNavigatorBackend.Domain.Entities;
 
 public class User : Entity
 {
@@ -9,6 +8,10 @@ public class User : Entity
     public DateTime? RefreshTokenExpiration { get; set;}
     public Guid ProfileId { get; set; }
     public Profile? Profile { get; set; }
-    public Role Role { get; set; }
+    public Roles Role { get; set; }
 }
-enum Role { }
+
+public enum Roles
+{
+    
+}
