@@ -1,9 +1,22 @@
-﻿namespace CsuNavigatorBackend.Api;
+﻿using CsuNavigatorBackend.Database.Context;
+using CsuNavigatorBackend.Database.Context.Interceptors;
+using Microsoft.EntityFrameworkCore;
 
-public class Startup(IWebHostEnvironment env)
+namespace CsuNavigatorBackend.Api;
+
+public class Startup(IConfiguration config, IWebHostEnvironment env)
 {
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
+        services.AddDbContext<NavigatorDbContext>((provider, builder) =>
+        {
+            var updateAuditableEntitiesInterceptor = provider
+                .GetRequiredService<UpdateAuditableEntitiesInterceptor>();
+            builder.UseNpgsql(config.GetConnectionString("DefaultConnection"))
+                .AddInterceptors(updateAuditableEntitiesInterceptor);
+        });
+        
         services.AddAuthorization();
 
         services.AddEndpointsApiExplorer();
