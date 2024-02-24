@@ -15,13 +15,13 @@ public class EdgeEntityConfiguration : IEntityTypeConfiguration<Edge>
         builder.HasOne(e => e.Map)
             .WithMany(m => m.Edges)
             .HasForeignKey(e => e.MapId);
-        
-        // builder.HasOne(e => e.Point1)
-        //     .WithOne(mp => mp.MapAsPoint1)
-        //     .HasForeignKey<Edge>(e => e.Point1Id);
-        
-        // builder.HasOne(e => e.Point2)
-        //     .WithOne(mp => mp.MapAsPoint2)
-        //     .HasForeignKey<Edge>(e => e.Point2Id);
+
+        builder.HasOne(e => e.Point1)
+            .WithOne(mp => mp.EdgeAsPoint1)
+            .HasForeignKey<Edge>(e => e.Point1Id);
+
+        builder.HasOne(e => e.Point2)
+            .WithOne(mp => mp.EdgeAsPoint2)
+            .HasForeignKey<Edge>(e => e.Point2Id);
     }
 }

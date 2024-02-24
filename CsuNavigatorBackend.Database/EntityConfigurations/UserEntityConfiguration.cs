@@ -8,13 +8,13 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        // builder.ToTable("User");
-        //
-        // builder.HasKey(u => u.Id);
-        // builder.HasIndex(u => u.Username);
-        //
-        // builder.HasOne(u => u.Profile)
-        //     .WithOne(p => p.User)
-        //     .HasForeignKey<User>(u => u.ProfileId);
+        builder.ToTable("User");
+
+        builder.HasKey(u => u.Id);
+        builder.HasIndex(u => u.Username);
+
+        builder.HasOne(u => u.Profile)
+            .WithOne(p => p.User)
+            .HasForeignKey<User>(u => u.ProfileId);
     }
 }

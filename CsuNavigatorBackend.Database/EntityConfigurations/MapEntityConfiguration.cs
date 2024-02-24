@@ -16,9 +16,9 @@ public class MapEntityConfiguration : IEntityTypeConfiguration<Map>
         builder.HasOne(m => m.Organization)
             .WithMany(organization => organization.Maps)
             .HasForeignKey(m => m.OrganizationId);
-        // builder.HasOne(m => m.Image)
-        //     .WithOne(i => i.Map)
-        //     .HasForeignKey<Map>(m => m.ImageId);
+        builder.HasOne(m => m.Image)
+            .WithOne(i => i.Map)
+            .HasForeignKey<Map>(m => m.ImageId);
         builder.HasMany(m => m.Edges)
             .WithOne(e => e.Map)
             .HasForeignKey(e => e.MapId);
