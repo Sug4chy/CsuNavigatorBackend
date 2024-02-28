@@ -1,4 +1,5 @@
-﻿using CsuNavigatorBackend.Database.Context;
+﻿using CsuNavigatorBackend.Api.Extensions;
+using CsuNavigatorBackend.Database.Context;
 using CsuNavigatorBackend.Database.Context.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,10 @@ public class Startup(IConfiguration config, IWebHostEnvironment env)
                 .AddInterceptors(updateAuditableEntitiesInterceptor);
         });
         
+        services.AddControllers();
+        services.AddValidators();
+        services.AddApplicationServices();
+        
         services.AddAuthorization();
 
         services.AddEndpointsApiExplorer();
@@ -31,8 +36,11 @@ public class Startup(IConfiguration config, IWebHostEnvironment env)
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
-
+        //app.UseHttpsRedirection();
+        app.UseRouting();
+        
         app.UseAuthorization();
+        
+        app.UseEndpoints(builder => builder.MapControllers());
     }
 }

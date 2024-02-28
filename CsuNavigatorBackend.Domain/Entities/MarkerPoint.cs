@@ -12,5 +12,8 @@ public class MarkerPoint : Entity
 
 public enum MarkerType
 {
-    
+    Mobility,
+    Room,
+    Safety,
+    Landmark
 }

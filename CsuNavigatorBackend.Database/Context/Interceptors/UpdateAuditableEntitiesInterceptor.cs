@@ -27,15 +27,15 @@ public class UpdateAuditableEntitiesInterceptor : SaveChangesInterceptor
                 case EntityState.Unchanged:
                     break;
                 case EntityState.Deleted:
-                    entry.Property(e => e.LastlyEditedAt).CurrentValue = DateTime.Now;
-                    entry.Property(e => e.DeletedAt).CurrentValue = DateTime.Now;
+                    entry.Property(e => e.LastlyEditedAt).CurrentValue = DateTime.UtcNow;
+                    entry.Property(e => e.DeletedAt).CurrentValue = DateTime.UtcNow;
                     break;
                 case EntityState.Modified:
-                    entry.Property(e => e.LastlyEditedAt).CurrentValue = DateTime.Now;
+                    entry.Property(e => e.LastlyEditedAt).CurrentValue = DateTime.UtcNow;
                     break;
                 case EntityState.Added:
-                    entry.Property(e => e.CreatedAt).CurrentValue = DateTime.Now;
-                    entry.Property(e => e.LastlyEditedAt).CurrentValue = DateTime.Now;
+                    entry.Property(e => e.CreatedAt).CurrentValue = DateTime.UtcNow;
+                    entry.Property(e => e.LastlyEditedAt).CurrentValue = DateTime.UtcNow;
                     break;
                 default:
                     continue;
