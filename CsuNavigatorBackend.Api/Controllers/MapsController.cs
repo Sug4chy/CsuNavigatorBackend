@@ -1,7 +1,9 @@
-﻿using CsuNavigatorBackend.Api.Requests.Maps;
+﻿using CsuNavigatorBackend.Api.Exceptions;
+using CsuNavigatorBackend.Api.Requests.Maps;
 using CsuNavigatorBackend.Api.Responses.Maps;
 using CsuNavigatorBackend.Api.Validators.Maps;
 using CsuNavigatorBackend.ApplicationServices;
+using CsuNavigatorBackend.Domain.Errors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CsuNavigatorBackend.Api.Controllers
@@ -19,19 +21,14 @@ namespace CsuNavigatorBackend.Api.Controllers
             CancellationToken ct = default)
         {
             var validationResult = await validator.ValidateAsync(request, ct);
-            if (!validationResult.IsValid)
-            {
-                throw new Exception();
-            }
+            BadRequestException.ThrowByValidationResult(validationResult);
 
             var organization = await organizationService
                 .GetOrganizationByNameAsync(request.OrganizationName, ct);
-            if (organization is null)
-            {
-                throw new Exception();
-            }
+            NotFoundException.ThrowIfNull(organization, 
+                OrganizationErrors.NoSuchOrganizationWithName(request.OrganizationName));
 
-            await mapService.CreateMapAsync(request.Map, organization, ct);
+            await mapService.CreateMapAsync(request.Map, organization!, ct);
             return new CreateMapResponse();
         }
     }
