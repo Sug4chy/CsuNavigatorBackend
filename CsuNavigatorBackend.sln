@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsuNavigatorBackend.Database", "CsuNavigatorBackend.Database\CsuNavigatorBackend.Database.csproj", "{D1489C39-6281-4C6D-AEB8-2282BF908253}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsuNavigatorBackend.Services", "CsuNavigatorBackend.Services\CsuNavigatorBackend.Services.csproj", "{5C129AB4-CA4C-48BC-AFAE-CE657B3D4136}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,11 +42,16 @@ Global
 		{D1489C39-6281-4C6D-AEB8-2282BF908253}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1489C39-6281-4C6D-AEB8-2282BF908253}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1489C39-6281-4C6D-AEB8-2282BF908253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C129AB4-CA4C-48BC-AFAE-CE657B3D4136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C129AB4-CA4C-48BC-AFAE-CE657B3D4136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C129AB4-CA4C-48BC-AFAE-CE657B3D4136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C129AB4-CA4C-48BC-AFAE-CE657B3D4136}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5CFC5ED5-3CA1-4054-92B7-4619767BCC6F} = {7AB45ACC-4C77-4C3E-9E71-7A21C50BE986}
 		{53A05D0C-0B93-4862-A2A9-6A53B05D4D33} = {7AB45ACC-4C77-4C3E-9E71-7A21C50BE986}
 		{E88D701A-C26E-447F-B2FE-D0682D9C391F} = {7AB45ACC-4C77-4C3E-9E71-7A21C50BE986}
 		{D1489C39-6281-4C6D-AEB8-2282BF908253} = {16D0C302-0D17-40E6-A9B1-F2A52260E370}
+		{5C129AB4-CA4C-48BC-AFAE-CE657B3D4136} = {16D0C302-0D17-40E6-A9B1-F2A52260E370}
 	EndGlobalSection
 EndGlobal

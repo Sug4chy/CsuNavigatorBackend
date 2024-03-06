@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CsuNavigatorBackend.Database\CsuNavigatorBackend.Database.csproj" />
+      <ProjectReference Include="..\CsuNavigatorBackend.Services\CsuNavigatorBackend.Services.csproj" />
     </ItemGroup>
 
 </Project>

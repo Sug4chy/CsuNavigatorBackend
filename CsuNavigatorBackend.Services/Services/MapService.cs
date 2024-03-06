@@ -1,9 +1,10 @@
-﻿using CsuNavigatorBackend.Api.Dto;
-using CsuNavigatorBackend.ApplicationServices;
+﻿using CsuNavigatorBackend.ApplicationServices;
+using CsuNavigatorBackend.ApplicationServices.Dto;
 using CsuNavigatorBackend.Database.Context;
 using CsuNavigatorBackend.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace CsuNavigatorBackend.Api.Services;
+namespace CsuNavigatorBackend.Services.Services;
 
 public class MapService(NavigatorDbContext context) : IMapService
 {
@@ -37,4 +38,13 @@ public class MapService(NavigatorDbContext context) : IMapService
         await context.Maps.AddAsync(map, ct);
         await context.SaveChangesAsync(ct);
     }
+
+    public Task<Map?> GetMapByIdAsync(Guid mapId, CancellationToken ct = default)
+        => context.Maps
+            .Include(m => m.Edges)!
+            .ThenInclude(e => e.Point1)
+            .Include(m => m.Edges)!
+            .ThenInclude(e => e.Point2)
+            .FirstOrDefaultAsync(m => m.Id == mapId, ct);
+
 }

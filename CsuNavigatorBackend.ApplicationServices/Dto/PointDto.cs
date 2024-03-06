@@ -1,4 +1,4 @@
-﻿namespace CsuNavigatorBackend.Api.Dto
+﻿namespace CsuNavigatorBackend.ApplicationServices.Dto
 {
     public record PointDto
     {

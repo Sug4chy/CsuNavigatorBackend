@@ -1,6 +1,6 @@
-﻿using CsuNavigatorBackend.Api.Dto;
+﻿using CsuNavigatorBackend.ApplicationServices.Dto;
 
-namespace CsuNavigatorBackend.Api.Requests.Maps
+namespace CsuNavigatorBackend.Services.Requests.Maps
 {
     public record CreateMapRequest
     {

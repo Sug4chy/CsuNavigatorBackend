@@ -1,7 +1,7 @@
-﻿using CsuNavigatorBackend.Api.Dto;
+﻿using CsuNavigatorBackend.ApplicationServices.Dto;
 using FluentValidation;
 
-namespace CsuNavigatorBackend.Api.Validators.Maps
+namespace CsuNavigatorBackend.Services.Validators.Dto
 {
     public class EdgeDtoValidator : AbstractValidator<EdgeDto>
     {

@@ -1,6 +1,4 @@
-﻿using CsuNavigatorBackend.Domain.Entities;
-
-namespace CsuNavigatorBackend.Api.Dto
+﻿namespace CsuNavigatorBackend.ApplicationServices.Dto
 {
     public record MapDto
     {

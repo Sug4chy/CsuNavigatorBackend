@@ -1,7 +1,8 @@
-﻿using CsuNavigatorBackend.Api.Requests.Maps;
+﻿using CsuNavigatorBackend.Services.Requests.Maps;
+using CsuNavigatorBackend.Services.Validators.Dto;
 using FluentValidation;
 
-namespace CsuNavigatorBackend.Api.Validators.Maps
+namespace CsuNavigatorBackend.Services.Validators.Maps
 {
     public class CreateMapRequestValidator : AbstractValidator<CreateMapRequest>
     {

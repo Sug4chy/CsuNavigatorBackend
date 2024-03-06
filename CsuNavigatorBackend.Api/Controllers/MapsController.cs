@@ -1,9 +1,13 @@
 ﻿using CsuNavigatorBackend.Api.Exceptions;
-using CsuNavigatorBackend.Api.Requests.Maps;
+using CsuNavigatorBackend.Api.Models;
 using CsuNavigatorBackend.Api.Responses.Maps;
-using CsuNavigatorBackend.Api.Validators.Maps;
 using CsuNavigatorBackend.ApplicationServices;
+using CsuNavigatorBackend.ApplicationServices.Dto;
+using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Domain.Errors;
+using CsuNavigatorBackend.Services.Mappers;
+using CsuNavigatorBackend.Services.Requests.Maps;
+using CsuNavigatorBackend.Services.Validators.Maps;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CsuNavigatorBackend.Api.Controllers
@@ -30,6 +34,29 @@ namespace CsuNavigatorBackend.Api.Controllers
 
             await mapService.CreateMapAsync(request.Map, organization!, ct);
             return new CreateMapResponse();
+        }
+
+        [HttpGet("{mapId:guid}")]
+        public async Task<GetMapByIdResponse> GetMapById(
+            [FromRoute] Guid mapId,
+            [FromServices] IMapper<Map, MapDto> mapMapper,
+            CancellationToken ct = default)
+        {
+            if (mapId == Guid.Empty)
+            {
+                throw new BadRequestException
+                {
+                    Error = ValidationErrors.EmptyGuid
+                };
+            }
+
+            var map = await mapService.GetMapByIdAsync(mapId, ct);
+            NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+
+            return new GetMapByIdResponse
+            {
+                Map = mapMapper.Map(map!)
+            };
         }
     }
 }

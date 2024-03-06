@@ -3,7 +3,7 @@ using CsuNavigatorBackend.Database.Context;
 using CsuNavigatorBackend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CsuNavigatorBackend.Api.Services;
+namespace CsuNavigatorBackend.Services.Services;
 
 public class OrganizationService(NavigatorDbContext context) : IOrganizationService
 {
