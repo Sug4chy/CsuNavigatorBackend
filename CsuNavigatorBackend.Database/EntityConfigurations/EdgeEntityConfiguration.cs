@@ -17,11 +17,11 @@ public class EdgeEntityConfiguration : IEntityTypeConfiguration<Edge>
             .HasForeignKey(e => e.MapId);
 
         builder.HasOne(e => e.Point1)
-            .WithOne(mp => mp.EdgeAsPoint1)
-            .HasForeignKey<Edge>(e => e.Point1Id);
+            .WithMany(mp => mp.EdgesAsPoint1)
+            .HasForeignKey(e => e.Point1Id);
 
         builder.HasOne(e => e.Point2)
-            .WithOne(mp => mp.EdgeAsPoint2)
-            .HasForeignKey<Edge>(e => e.Point2Id);
+            .WithMany(mp => mp.EdgesAsPoint2)
+            .HasForeignKey(e => e.Point2Id);
     }
 }

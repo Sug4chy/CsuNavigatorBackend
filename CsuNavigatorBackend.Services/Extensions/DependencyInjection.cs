@@ -5,6 +5,7 @@ using CsuNavigatorBackend.Services.Mappers;
 using CsuNavigatorBackend.Services.Services;
 using CsuNavigatorBackend.Services.Validators.Dto;
 using CsuNavigatorBackend.Services.Validators.Maps;
+using CsuNavigatorBackend.Services.Validators.Points;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CsuNavigatorBackend.Services.Extensions;
@@ -12,12 +13,16 @@ namespace CsuNavigatorBackend.Services.Extensions;
 public static class DependencyInjection
 {
     public static IServiceCollection AddValidators(this IServiceCollection services)
-        => services.AddScoped<EdgeDtoValidator>()
-            .AddScoped<CreateMapRequestValidator>();
+        => services.AddScoped<PointDtoValidator>()
+            .AddScoped<EdgeDtoValidator>()
+            .AddScoped<MapDtoValidator>()
+            .AddScoped<CreateMapRequestValidator>()
+            .AddScoped<CreatePointRequestValidator>();
 
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         => services.AddScoped<IMapService, MapService>()
-            .AddScoped<IOrganizationService, OrganizationService>();
+            .AddScoped<IOrganizationService, OrganizationService>()
+            .AddScoped<IPointService, PointService>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services.AddScoped<IMapper<MarkerPoint, PointDto>, PointMapper>()

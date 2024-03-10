@@ -12,4 +12,5 @@ public class Map : Entity
     public Image? Image { get; set; }
     
     public ICollection<Edge>? Edges { get; set; }
+    public ICollection<MarkerPoint>? PointsWithoutEdges { get; set; }
 }

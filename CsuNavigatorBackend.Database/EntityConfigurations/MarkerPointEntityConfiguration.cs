@@ -12,12 +12,12 @@ public class MarkerPointEntityConfiguration : IEntityTypeConfiguration<MarkerPoi
 
         builder.HasKey(mp => mp.Id);
 
-        builder.HasOne(mp => mp.EdgeAsPoint1)
+        builder.HasMany(mp => mp.EdgesAsPoint1)
             .WithOne(e => e.Point1)
-            .HasForeignKey<Edge>(e => e.Point1Id);
-        builder.HasOne(mp => mp.EdgeAsPoint2)
+            .HasForeignKey(e => e.Point1Id);
+        builder.HasMany(mp => mp.EdgesAsPoint2)
             .WithOne(e => e.Point2)
-            .HasForeignKey<Edge>(e => e.Point2Id);
+            .HasForeignKey(e => e.Point2Id);
 
         builder.Property(mp => mp.MarkerType)
              .HasConversion<string>();

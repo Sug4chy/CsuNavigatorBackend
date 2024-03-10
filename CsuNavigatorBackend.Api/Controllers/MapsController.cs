@@ -10,53 +10,52 @@ using CsuNavigatorBackend.Services.Requests.Maps;
 using CsuNavigatorBackend.Services.Validators.Maps;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CsuNavigatorBackend.Api.Controllers
+namespace CsuNavigatorBackend.Api.Controllers;
+
+[ApiController]
+[Route("/api/[controller]")]
+public class MapsController(
+    IMapService mapService,
+    IOrganizationService organizationService) : ControllerBase
 {
-    [ApiController]
-    [Route("/api/[controller]")]
-    public class MapsController(
-        IMapService mapService,
-        IOrganizationService organizationService) : ControllerBase
+    [HttpPost]
+    public async Task<CreateMapResponse> CreateMap(
+        [FromBody] CreateMapRequest request, 
+        [FromServices] CreateMapRequestValidator validator,
+        CancellationToken ct = default)
     {
-        [HttpPost]
-        public async Task<CreateMapResponse> CreateMap(
-            [FromBody] CreateMapRequest request, 
-            [FromServices] CreateMapRequestValidator validator,
-            CancellationToken ct = default)
+        var validationResult = await validator.ValidateAsync(request, ct);
+        BadRequestException.ThrowByValidationResult(validationResult);
+
+        var organization = await organizationService
+            .GetOrganizationByNameAsync(request.OrganizationName, ct);
+        NotFoundException.ThrowIfNull(organization, 
+            OrganizationErrors.NoSuchOrganizationWithName(request.OrganizationName));
+
+        await mapService.CreateMapAsync(request.Map, organization!, ct);
+        return new CreateMapResponse();
+    }
+
+    [HttpGet("{mapId:guid}")]
+    public async Task<GetMapByIdResponse> GetMapById(
+        [FromRoute] Guid mapId,
+        [FromServices] IMapper<Map, MapDto> mapMapper,
+        CancellationToken ct = default)
+    {
+        if (mapId == Guid.Empty)
         {
-            var validationResult = await validator.ValidateAsync(request, ct);
-            BadRequestException.ThrowByValidationResult(validationResult);
-
-            var organization = await organizationService
-                .GetOrganizationByNameAsync(request.OrganizationName, ct);
-            NotFoundException.ThrowIfNull(organization, 
-                OrganizationErrors.NoSuchOrganizationWithName(request.OrganizationName));
-
-            await mapService.CreateMapAsync(request.Map, organization!, ct);
-            return new CreateMapResponse();
-        }
-
-        [HttpGet("{mapId:guid}")]
-        public async Task<GetMapByIdResponse> GetMapById(
-            [FromRoute] Guid mapId,
-            [FromServices] IMapper<Map, MapDto> mapMapper,
-            CancellationToken ct = default)
-        {
-            if (mapId == Guid.Empty)
+            throw new BadRequestException
             {
-                throw new BadRequestException
-                {
-                    Error = ValidationErrors.EmptyGuid
-                };
-            }
-
-            var map = await mapService.GetMapByIdAsync(mapId, ct);
-            NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
-
-            return new GetMapByIdResponse
-            {
-                Map = mapMapper.Map(map!)
+                Error = ValidationErrors.EmptyGuid
             };
         }
+
+        var map = await mapService.GetFullMapByIdAsync(mapId, ct);
+        NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+
+        return new GetMapByIdResponse
+        {
+            Map = mapMapper.Map(map!)
+        };
     }
 }
