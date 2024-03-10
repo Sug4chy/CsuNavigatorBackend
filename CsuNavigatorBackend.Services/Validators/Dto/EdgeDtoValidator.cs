@@ -7,6 +7,8 @@ public class EdgeDtoValidator : AbstractValidator<EdgeDto>
 {
     public EdgeDtoValidator()
     {
+        RuleFor(dto => dto.Id)
+            .Null();
         var pointDtoValidator = new PointDtoValidator();
         RuleFor(dto => dto.Point1)
             .SetValidator(pointDtoValidator);

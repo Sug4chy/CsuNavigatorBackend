@@ -8,6 +8,8 @@ public class PointDtoValidator : AbstractValidator<PointDto>
 {
     public PointDtoValidator()
     {
+        RuleFor(dto => dto.Id)
+            .Null();
         RuleFor(dto => dto.Type)
             .NotEmpty()
             .Must(s => Enum.TryParse<MarkerType>(s, out _));

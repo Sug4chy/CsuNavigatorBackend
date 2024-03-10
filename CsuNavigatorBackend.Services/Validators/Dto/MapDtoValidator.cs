@@ -7,6 +7,8 @@ public class MapDtoValidator : AbstractValidator<MapDto>
 {
     public MapDtoValidator()
     {
+        RuleFor(dto => dto.Id)
+            .Null();
         RuleFor(dto => dto.Title)
             .NotEmpty();
         RuleFor(dto => dto.Description)

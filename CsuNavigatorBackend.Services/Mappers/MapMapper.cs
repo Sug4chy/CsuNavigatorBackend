@@ -9,6 +9,7 @@ public class MapMapper(IMapper<Edge, EdgeDto> edgeMapper,
     public MapDto Map(Map from)
         => new()
         {
+            Id = from.Id,
             Title = from.Title,
             Description = from.Description,
             Edges = from.Edges!.Select(edgeMapper.Map).ToArray(),

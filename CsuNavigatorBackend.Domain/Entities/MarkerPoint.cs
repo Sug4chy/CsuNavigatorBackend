@@ -8,7 +8,7 @@ public class MarkerPoint : Entity
     public string? Description { get; set; }
     public ICollection<Edge>? EdgesAsPoint1 { get; set; }
     public ICollection<Edge>? EdgesAsPoint2 { get; set; } 
-    public Guid MapAsPointWithoutEdgeId { get; set; }
+    public Guid? MapAsPointWithoutEdgeId { get; set; }
     public Map? MapAsPointWithoutEdge { get; set; }
 }
 
