@@ -34,4 +34,10 @@ public class PointService(NavigatorDbContext context) : IPointService
         context.MarkerPoints.Update(point);
         await context.SaveChangesAsync(ct);
     }
+
+    public async Task DeleteMarkerPointAsync(MarkerPoint point, CancellationToken ct = default)
+    {
+        context.MarkerPoints.Remove(point);
+        await context.SaveChangesAsync(ct);
+    }
 }

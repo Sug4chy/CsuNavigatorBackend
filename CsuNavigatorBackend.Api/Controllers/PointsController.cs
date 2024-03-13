@@ -56,4 +56,24 @@ public class PointsController(
 
         await pointService.UpdateMarkerPointAsync(point!, request.UpdatedPoint, ct);
     }
+
+    [HttpDelete("{pointId:guid}")]
+    public async Task DeletePoint(
+        [FromRoute] Guid mapId,
+        [FromRoute] Guid pointId,
+        CancellationToken ct = default)
+    {
+        if (!await mapService.CheckIfMapExistAsync(mapId, ct))
+        {
+            throw new NotFoundException
+            {
+                Error = MapErrors.NoSuchMapWithId(mapId)
+            };
+        }
+
+        var point = await pointService.GetMarkerPointByIdAsync(pointId, ct);
+        NotFoundException.ThrowIfNull(point, MarkerPointErrors.NoSuchPointWithId(pointId));
+
+        await pointService.DeleteMarkerPointAsync(point!, ct);
+    }
 }

@@ -41,14 +41,6 @@ public class MapsController(
         [FromServices] IMapper<Map, MapDto> mapMapper,
         CancellationToken ct = default)
     {
-        if (mapId == Guid.Empty)
-        {
-            throw new BadRequestException
-            {
-                Error = ValidationErrors.EmptyGuid
-            };
-        }
-
         var map = await mapService.GetFullMapByIdAsync(mapId, ct);
         NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
 

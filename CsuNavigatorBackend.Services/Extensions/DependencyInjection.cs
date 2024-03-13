@@ -19,6 +19,7 @@ public static class DependencyInjection
             .AddScoped<MapDtoValidator>()
             .AddScoped<CreateMapRequestValidator>()
             .AddScoped<CreatePointRequestValidator>()
+            .AddScoped<UpdatePointRequestValidator>()
             .AddScoped<CreateEdgeRequestValidator>();
 
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
