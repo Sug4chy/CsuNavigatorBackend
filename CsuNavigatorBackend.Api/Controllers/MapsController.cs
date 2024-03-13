@@ -48,4 +48,20 @@ public class MapsController(
             Map = mapMapper.Map(map!)
         };
     }
+
+    [HttpPut("{mapId:guid}")]
+    public async Task UpdateMap(
+        [FromRoute] Guid mapId,
+        [FromBody] UpdateMapRequest request,
+        [FromServices] UpdateMapRequestValidator validator,
+        CancellationToken ct = default)
+    {
+        var validationResult = await validator.ValidateAsync(request, ct);
+        BadRequestException.ThrowByValidationResult(validationResult);
+
+        var map = await mapService.GetFullMapByIdAsync(mapId, ct);
+        NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+
+        await mapService.UpdateMapAsync(map!, request.UpdatedMap, ct);
+    }
 }

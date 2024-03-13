@@ -9,4 +9,5 @@ public interface IMapService
     Task<Map?> GetFullMapByIdAsync(Guid mapId, CancellationToken ct = default);
     Task<Map?> GetMapOnlyWithPointsByIdAsync(Guid mapId, CancellationToken ct = default);
     Task CreateMapAsync(MapDto dto, Organization organization, CancellationToken ct = default);
+    Task UpdateMapAsync(Map map, MapDto dto, CancellationToken ct = default);
 }
