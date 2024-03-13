@@ -30,4 +30,19 @@ public class EdgesController(
         map!.Edges ??= new List<Edge>();
         await edgeService.CreateEdgeAsync(request.Point1Id, request.Point2Id, map, ct);
     }
+
+    [HttpDelete("{edgeId:guid}")]
+    public async Task DeleteEdge(
+        [FromRoute] Guid mapId,
+        [FromRoute] Guid edgeId,
+        CancellationToken ct = default)
+    {
+        var map = await mapService.GetFullMapByIdAsync(mapId, ct);
+        NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+
+        var edge = map!.Edges?.FirstOrDefault(e => e.Id == edgeId);
+        NotFoundException.ThrowIfNull(edge, EdgeErrors.NoSuchEdgeWithId(edgeId));
+
+        await edgeService.DeleteEdgeAsync(edge!, map, ct);
+    }
 }
