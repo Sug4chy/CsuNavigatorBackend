@@ -59,7 +59,7 @@ public class MapsController(
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
-        var map = await mapService.GetFullMapByIdAsync(mapId, ct);
+        var map = await mapService.GetMapByIdAsync(mapId, ct);
         NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
 
         await mapService.UpdateMapAsync(map!, request.UpdatedMap, ct);

@@ -25,6 +25,10 @@ public class MapService(NavigatorDbContext context) : IMapService
             .Include(m => m.PointsWithoutEdges)
             .FirstOrDefaultAsync(m => m.Id == mapId, ct);
     
+    public Task<Map?> GetMapByIdAsync(Guid mapId, CancellationToken ct = default) 
+        => context.Maps
+            .FirstOrDefaultAsync(m => m.Id == mapId, ct);
+    
     public async Task CreateMapAsync(MapDto dto, Organization organization, CancellationToken ct = default)
     {
         var edges = dto.Edges.Select(edgeDto => new Edge
