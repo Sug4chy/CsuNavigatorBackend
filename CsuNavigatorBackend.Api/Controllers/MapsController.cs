@@ -1,5 +1,4 @@
 ﻿using CsuNavigatorBackend.Api.Exceptions;
-using CsuNavigatorBackend.Api.Models;
 using CsuNavigatorBackend.Api.Responses.Maps;
 using CsuNavigatorBackend.ApplicationServices;
 using CsuNavigatorBackend.ApplicationServices.Dto;
