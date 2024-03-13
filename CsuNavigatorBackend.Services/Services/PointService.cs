@@ -6,10 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CsuNavigatorBackend.Services.Services;
 
-public class PointService(NavigatorDbContext context) : IPointService
+public class PointService(
+    NavigatorDbContext context,
+    IEdgeService edgeService) : IPointService
 {
     public Task<MarkerPoint?> GetMarkerPointByIdAsync(Guid pointId, CancellationToken ct = default)
-        => context.MarkerPoints.FirstOrDefaultAsync(mp => mp.Id == pointId, ct);
+        => context.MarkerPoints
+            .Include(mp => mp.EdgesAsPoint1)!
+            .ThenInclude(e => e.Point2)
+            .Include(mp => mp.EdgesAsPoint2)!
+            .ThenInclude(e => e.Point1)
+            .FirstOrDefaultAsync(mp => mp.Id == pointId, ct);
 
     public async Task CreateMarkerPointAsync(PointDto dto, Map map, CancellationToken ct = default)
     {
@@ -35,8 +42,18 @@ public class PointService(NavigatorDbContext context) : IPointService
         await context.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteMarkerPointAsync(MarkerPoint point, CancellationToken ct = default)
+    public async Task DeleteMarkerPointAsync(MarkerPoint point, Map map, CancellationToken ct = default)
     {
+        foreach (var edge in point.EdgesAsPoint1!)
+        {
+            await edgeService.DeleteEdgeAsync(edge, map, ct);
+        }
+
+        foreach (var edge in point.EdgesAsPoint2!)
+        {
+            await edgeService.DeleteEdgeAsync(edge, map, ct);
+        }
+        
         context.MarkerPoints.Remove(point);
         await context.SaveChangesAsync(ct);
     }

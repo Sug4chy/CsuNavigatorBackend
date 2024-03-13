@@ -28,4 +28,24 @@ public class EdgeService(NavigatorDbContext context) : IEdgeService
 
         await context.SaveChangesAsync(ct);
     }
+
+    public async Task DeleteEdgeAsync(Edge edge, Map map, CancellationToken ct = default)
+    {
+        var point1 = edge.Point1!;
+        point1.EdgesAsPoint1!.Remove(edge);
+        if (point1.EdgesAsPoint1!.Count == 0)
+        {
+            map.PointsWithoutEdges!.Add(point1);
+        }
+
+        var point2 = edge.Point2!;
+        point2.EdgesAsPoint2!.Remove(edge);
+        if (point2.EdgesAsPoint2!.Count == 0)
+        {
+            map.PointsWithoutEdges!.Add(point2);
+        }
+
+        map.Edges!.Remove(edge);
+        await context.SaveChangesAsync(ct);
+    }
 }

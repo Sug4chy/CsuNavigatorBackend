@@ -63,17 +63,13 @@ public class PointsController(
         [FromRoute] Guid pointId,
         CancellationToken ct = default)
     {
-        if (!await mapService.CheckIfMapExistAsync(mapId, ct))
-        {
-            throw new NotFoundException
-            {
-                Error = MapErrors.NoSuchMapWithId(mapId)
-            };
-        }
+        var map = await mapService.GetMapOnlyWithPointsByIdAsync(mapId, ct);
+        NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
 
         var point = await pointService.GetMarkerPointByIdAsync(pointId, ct);
         NotFoundException.ThrowIfNull(point, MarkerPointErrors.NoSuchPointWithId(pointId));
-
-        await pointService.DeleteMarkerPointAsync(point!, ct);
+        
+        map!.PointsWithoutEdges ??= new List<MarkerPoint>();
+        await pointService.DeleteMarkerPointAsync(point!, map, ct);
     }
 }

@@ -14,10 +14,12 @@ public class MarkerPointEntityConfiguration : IEntityTypeConfiguration<MarkerPoi
 
         builder.HasMany(mp => mp.EdgesAsPoint1)
             .WithOne(e => e.Point1)
-            .HasForeignKey(e => e.Point1Id);
+            .HasForeignKey(e => e.Point1Id)
+            .OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(mp => mp.EdgesAsPoint2)
             .WithOne(e => e.Point2)
-            .HasForeignKey(e => e.Point2Id);
+            .HasForeignKey(e => e.Point2Id)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(mp => mp.MarkerType)
              .HasConversion<string>();
