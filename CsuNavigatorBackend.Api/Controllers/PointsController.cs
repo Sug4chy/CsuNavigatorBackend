@@ -1,5 +1,4 @@
 ﻿using CsuNavigatorBackend.Api.Exceptions;
-using CsuNavigatorBackend.Api.Responses.Points;
 using CsuNavigatorBackend.ApplicationServices;
 using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Domain.Errors;
@@ -17,7 +16,7 @@ public class PointsController(
 ) : ControllerBase
 {
     [HttpPost]
-    public async Task<CreatePointResponse> CreatePoint(
+    public async Task CreatePoint(
         [FromRoute] Guid mapId,
         [FromBody] CreatePointRequest request,
         [FromServices] CreatePointRequestValidator validator,
@@ -31,7 +30,30 @@ public class PointsController(
 
         map!.PointsWithoutEdges ??= new List<MarkerPoint>();
         await pointService.CreateMarkerPointAsync(request.Point, map, ct);
+    }
 
-        return new CreatePointResponse();
+    [HttpPut("{pointId:guid}")]
+    public async Task UpdatePoint(
+        [FromRoute] Guid mapId,
+        [FromRoute] Guid pointId,
+        [FromBody] UpdatePointRequest request,
+        [FromServices] UpdatePointRequestValidator validator,
+        CancellationToken ct = default)
+    {
+        var validationResult = await validator.ValidateAsync(request, ct);
+        BadRequestException.ThrowByValidationResult(validationResult);
+
+        if (!await mapService.CheckIfMapExistAsync(mapId, ct))
+        {
+            throw new NotFoundException
+            {
+                Error = MapErrors.NoSuchMapWithId(mapId)
+            };
+        }
+
+        var point = await pointService.GetMarkerPointByIdAsync(pointId, ct);
+        NotFoundException.ThrowIfNull(point, MarkerPointErrors.NoSuchPointWithId(pointId));
+
+        await pointService.UpdateMarkerPointAsync(point!, request.UpdatedPoint, ct);
     }
 }

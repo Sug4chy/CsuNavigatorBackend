@@ -13,5 +13,6 @@ public class User : Entity
 
 public enum Roles
 {
-    
+    DesktopUser,
+    MobileUser
 }

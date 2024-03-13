@@ -8,6 +8,23 @@ namespace CsuNavigatorBackend.Services.Services;
 
 public class MapService(NavigatorDbContext context) : IMapService
 {
+    public Task<bool> CheckIfMapExistAsync(Guid mapId, CancellationToken ct = default)
+        => context.Maps.AnyAsync(m => m.Id == mapId, ct);
+
+    public Task<Map?> GetFullMapByIdAsync(Guid mapId, CancellationToken ct = default)
+        => context.Maps
+            .Include(m => m.Edges)!
+            .ThenInclude(e => e.Point1)
+            .Include(m => m.Edges)!
+            .ThenInclude(e => e.Point2)
+            .Include(m => m.PointsWithoutEdges)
+            .FirstOrDefaultAsync(m => m.Id == mapId, ct);
+
+    public Task<Map?> GetMapOnlyWithPointsByIdAsync(Guid mapId, CancellationToken ct = default)
+        => context.Maps
+            .Include(m => m.PointsWithoutEdges)
+            .FirstOrDefaultAsync(m => m.Id == mapId, ct);
+    
     public async Task CreateMapAsync(MapDto dto, Organization organization, CancellationToken ct = default)
     {
         var edges = dto.Edges.Select(edgeDto => new Edge
@@ -39,17 +56,4 @@ public class MapService(NavigatorDbContext context) : IMapService
         await context.SaveChangesAsync(ct);
     }
 
-    public Task<Map?> GetFullMapByIdAsync(Guid mapId, CancellationToken ct = default)
-        => context.Maps
-            .Include(m => m.Edges)!
-            .ThenInclude(e => e.Point1)
-            .Include(m => m.Edges)!
-            .ThenInclude(e => e.Point2)
-            .Include(m => m.PointsWithoutEdges)
-            .FirstOrDefaultAsync(m => m.Id == mapId, ct);
-
-    public Task<Map?> GetMapOnlyWithPointsByIdAsync(Guid mapId, CancellationToken ct = default)
-        => context.Maps
-            .Include(m => m.PointsWithoutEdges)
-            .FirstOrDefaultAsync(m => m.Id == mapId, ct);
 }

@@ -19,7 +19,7 @@ public class MapsController(
     IOrganizationService organizationService) : ControllerBase
 {
     [HttpPost]
-    public async Task<CreateMapResponse> CreateMap(
+    public async Task CreateMap(
         [FromBody] CreateMapRequest request, 
         [FromServices] CreateMapRequestValidator validator,
         CancellationToken ct = default)
@@ -33,7 +33,6 @@ public class MapsController(
             OrganizationErrors.NoSuchOrganizationWithName(request.OrganizationName));
 
         await mapService.CreateMapAsync(request.Map, organization!, ct);
-        return new CreateMapResponse();
     }
 
     [HttpGet("{mapId:guid}")]

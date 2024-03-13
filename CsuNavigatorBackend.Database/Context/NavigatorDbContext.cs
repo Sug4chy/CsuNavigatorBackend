@@ -5,8 +5,9 @@ namespace CsuNavigatorBackend.Database.Context;
 
 public class NavigatorDbContext(DbContextOptions<NavigatorDbContext> options) : DbContext(options)
 {
-    public DbSet<Map> Maps => Set<Map>();
     public DbSet<Organization> Organizations => Set<Organization>();
+    public DbSet<Map> Maps => Set<Map>();
+    public DbSet<MarkerPoint> MarkerPoints => Set<MarkerPoint>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

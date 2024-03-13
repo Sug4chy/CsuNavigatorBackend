@@ -1,5 +1,4 @@
 ﻿using CsuNavigatorBackend.Api.Exceptions;
-using CsuNavigatorBackend.Api.Responses.Edges;
 using CsuNavigatorBackend.ApplicationServices;
 using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Domain.Errors;
@@ -16,7 +15,7 @@ public class EdgesController(
     IEdgeService edgeService) : ControllerBase
 {
     [HttpPost]
-    public async Task<CreateEdgeResponse> CreateEdge(
+    public async Task CreateEdge(
         [FromRoute] Guid mapId,
         [FromBody] CreateEdgeRequest request,
         [FromServices] CreateEdgeRequestValidator validator,
@@ -30,7 +29,5 @@ public class EdgesController(
 
         map!.Edges ??= new List<Edge>();
         await edgeService.CreateEdgeAsync(request.Point1Id, request.Point2Id, map, ct);
-
-        return new CreateEdgeResponse();
     }
 }
