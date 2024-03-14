@@ -11,4 +11,5 @@ public interface IMapService
     Task<Map?> GetMapByIdAsync(Guid mapId, CancellationToken ct = default);
     Task CreateMapAsync(MapDto dto, Organization organization, CancellationToken ct = default);
     Task UpdateMapAsync(Map map, MapDto dto, CancellationToken ct = default);
+    Task DeleteMapAsync(Map map, CancellationToken ct = default);
 }
