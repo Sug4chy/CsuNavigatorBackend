@@ -11,7 +11,7 @@ public class MapEntityConfiguration : IEntityTypeConfiguration<Map>
         builder.ToTable("Map");
 
         builder.HasKey(m => m.Id);
-        builder.HasIndex(m => m.Title).IsUnique();
+        builder.HasIndex(m => m.Title).IsUnique();  
 
         builder.HasOne(m => m.Organization)
             .WithMany(organization => organization.Maps)
@@ -21,6 +21,10 @@ public class MapEntityConfiguration : IEntityTypeConfiguration<Map>
             .HasForeignKey<Map>(m => m.ImageId);
         builder.HasMany(m => m.Edges)
             .WithOne(e => e.Map)
-            .HasForeignKey(e => e.MapId);
+            .HasForeignKey(e => e.MapId)
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(m => m.PointsWithoutEdges)
+            .WithOne(p => p.MapAsPointWithoutEdge)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

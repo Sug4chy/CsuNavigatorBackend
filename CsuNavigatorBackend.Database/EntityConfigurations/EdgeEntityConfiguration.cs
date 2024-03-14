@@ -18,10 +18,12 @@ public class EdgeEntityConfiguration : IEntityTypeConfiguration<Edge>
 
         builder.HasOne(e => e.Point1)
             .WithMany(mp => mp.EdgesAsPoint1)
-            .HasForeignKey(e => e.Point1Id);
+            .HasForeignKey(e => e.Point1Id)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(e => e.Point2)
             .WithMany(mp => mp.EdgesAsPoint2)
-            .HasForeignKey(e => e.Point2Id);
+            .HasForeignKey(e => e.Point2Id)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

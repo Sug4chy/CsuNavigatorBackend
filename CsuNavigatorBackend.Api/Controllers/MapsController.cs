@@ -64,4 +64,15 @@ public class MapsController(
 
         await mapService.UpdateMapAsync(map!, request.UpdatedMap, ct);
     }
+
+    [HttpDelete("{mapId:guid}")]
+    public async Task DeleteMap(
+        [FromRoute] Guid mapId,
+        CancellationToken ct = default)
+    {
+        var map = await mapService.GetFullMapByIdAsync(mapId, ct);
+        NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+
+        await mapService.DeleteMapAsync(map!, ct);
+    }
 }

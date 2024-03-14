@@ -3,6 +3,7 @@ using System;
 using CsuNavigatorBackend.Database.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CsuNavigatorBackend.Database.Migrations
 {
     [DbContext(typeof(NavigatorDbContext))]
-    partial class NavigatorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240314165908_CascadeDeletingOnMaps")]
+    partial class CascadeDeletingOnMaps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

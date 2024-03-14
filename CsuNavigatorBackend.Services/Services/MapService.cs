@@ -68,4 +68,10 @@ public class MapService(NavigatorDbContext context) : IMapService
         context.Maps.Update(map);
         await context.SaveChangesAsync(ct);
     }
+
+    public async Task DeleteMapAsync(Map map, CancellationToken ct = default)
+    {
+        context.Maps.Remove(map);
+        await context.SaveChangesAsync(ct);
+    }
 }
