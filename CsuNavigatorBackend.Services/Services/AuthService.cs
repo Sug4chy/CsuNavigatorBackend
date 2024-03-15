@@ -15,6 +15,11 @@ public class AuthService(
     public async Task<string> RegisterMobileUserAsync(MobileRegisterDto dto, CancellationToken ct = default)
     {
         var user = await userService.CreateUserAsync(mobileUserDtoMapper.Map(dto), ct);
+        if (user is null)
+        {
+            return "";
+        }
+        
         await profileService
             .CreateProfileAsync(mobileProfileDtoMapper.Map(dto), user, ct);
         await context.SaveChangesAsync(ct);

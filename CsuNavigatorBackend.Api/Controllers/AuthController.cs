@@ -2,6 +2,7 @@
 using CsuNavigatorBackend.Api.Responses.Auth;
 using CsuNavigatorBackend.ApplicationServices.Dto;
 using CsuNavigatorBackend.ApplicationServices.Services;
+using CsuNavigatorBackend.Domain.Errors;
 using CsuNavigatorBackend.Services.Requests.Auth;
 using CsuNavigatorBackend.Services.Validators.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,14 @@ public class AuthController(IAuthService authService) : ControllerBase
         BadRequestException.ThrowByValidationResult(validationResult);
 
         string token = await authService.RegisterMobileUserAsync(mobileRegisterDtoMapper.Map(request), ct);
+        if (token.Length == 0)
+        {
+            throw new ConflictException
+            {
+                Error = UserErrors.UserWithUsernameAlreadyExist(request.Username)
+            };
+        }
+        
         return new RegisterResponse
         {
             Jwt = token

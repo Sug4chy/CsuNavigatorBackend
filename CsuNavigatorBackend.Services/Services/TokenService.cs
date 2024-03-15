@@ -20,7 +20,8 @@ public class TokenService(IOptions<JwtConfigOptions> options) : ITokenService
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.UserData, user.Username),
             new Claim(ClaimTypes.Name, user.Profile!.Name),
-            new Claim(ClaimTypes.Surname, user.Profile.Surname)
+            new Claim(ClaimTypes.Surname, user.Profile.Surname),
+            new Claim(ClaimTypes.Role, user.Role.ToString())
         ];
 
         var jwt = new JwtSecurityToken(
