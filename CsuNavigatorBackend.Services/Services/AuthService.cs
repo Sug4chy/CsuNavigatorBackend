@@ -17,7 +17,7 @@ public class AuthService(
         var user = await userService.CreateUserAsync(mobileUserDtoMapper.Map(dto), ct);
         if (user is null)
         {
-            return "";
+            return string.Empty;
         }
         
         await profileService

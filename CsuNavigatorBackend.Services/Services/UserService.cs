@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CsuNavigatorBackend.Services.Services;
 
-public class UserService(NavigatorDbContext context) : IUserService
+public class UserService(
+    NavigatorDbContext context,
+    IPasswordHasher hasher) : IUserService
 {
     public async Task<User?> CreateUserAsync(UserDto dto, CancellationToken ct = default)
     {
@@ -14,11 +16,11 @@ public class UserService(NavigatorDbContext context) : IUserService
         {
             return null;
         }
-        
+
         var user = new User
         {
             Username = dto.Username,
-            Password = dto.Password,
+            Password = hasher.HashPassword(dto.Password, out byte[] _),
             Role = dto.Role
         };
         await context.Users.AddAsync(user, ct);

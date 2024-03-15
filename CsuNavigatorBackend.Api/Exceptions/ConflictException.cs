@@ -2,5 +2,5 @@
 
 public class ConflictException : ExceptionBase
 {
-    public override int StatusCode { get; } = StatusCodes.Status409Conflict;
+    public override int StatusCode => StatusCodes.Status409Conflict;
 }

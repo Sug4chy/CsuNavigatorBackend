@@ -33,7 +33,8 @@ public static class DependencyInjection
             .AddScoped<IAuthService, AuthService>()
             .AddScoped<IProfileService, ProfileService>()
             .AddScoped<ITokenService, TokenService>()
-            .AddScoped<IUserService, UserService>();
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IPasswordHasher, PasswordHasher>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services.AddScoped<IMapper<MarkerPoint, PointDto>, PointMapper>()
