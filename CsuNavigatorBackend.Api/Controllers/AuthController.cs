@@ -14,7 +14,7 @@ namespace CsuNavigatorBackend.Api.Controllers;
 public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("register/mobile")]
-    public async Task<RegisterResponse> Register(
+    public async Task<MobileRegisterResponse> MobileRegister(
         [FromBody] MobileRegisterRequest request,
         [FromServices] MobileRegisterRequestValidator validator,
         [FromServices] IMapper<MobileRegisterRequest, MobileRegisterDto> mobileRegisterDtoMapper,
@@ -32,7 +32,7 @@ public class AuthController(IAuthService authService) : ControllerBase
             };
         }
         
-        return new RegisterResponse
+        return new MobileRegisterResponse
         {
             Jwt = token
         };

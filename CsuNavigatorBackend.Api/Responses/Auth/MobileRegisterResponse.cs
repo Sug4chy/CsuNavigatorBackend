@@ -1,6 +1,6 @@
 ﻿namespace CsuNavigatorBackend.Api.Responses.Auth;
 
-public record RegisterResponse
+public record MobileRegisterResponse
 {
     public required string Jwt { get; init; }
 }
