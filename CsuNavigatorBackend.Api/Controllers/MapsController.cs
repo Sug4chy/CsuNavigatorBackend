@@ -1,10 +1,9 @@
 ﻿using CsuNavigatorBackend.Api.Exceptions;
 using CsuNavigatorBackend.Api.Responses.Maps;
-using CsuNavigatorBackend.ApplicationServices;
 using CsuNavigatorBackend.ApplicationServices.Dto;
+using CsuNavigatorBackend.ApplicationServices.Services;
 using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Domain.Errors;
-using CsuNavigatorBackend.Services.Mappers;
 using CsuNavigatorBackend.Services.Requests.Maps;
 using CsuNavigatorBackend.Services.Validators.Maps;
 using Microsoft.AspNetCore.Mvc;

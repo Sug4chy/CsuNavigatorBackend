@@ -1,4 +1,4 @@
-﻿namespace CsuNavigatorBackend.Services.Mappers;
+﻿namespace CsuNavigatorBackend.ApplicationServices.Services;
 
 public interface IMapper<in TFrom, out TTo>
 {

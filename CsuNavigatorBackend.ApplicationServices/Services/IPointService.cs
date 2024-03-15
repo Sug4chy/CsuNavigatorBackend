@@ -1,7 +1,7 @@
 ﻿using CsuNavigatorBackend.ApplicationServices.Dto;
 using CsuNavigatorBackend.Domain.Entities;
 
-namespace CsuNavigatorBackend.ApplicationServices;
+namespace CsuNavigatorBackend.ApplicationServices.Services;
 
 public interface IPointService
 {

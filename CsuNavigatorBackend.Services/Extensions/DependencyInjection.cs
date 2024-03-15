@@ -1,8 +1,10 @@
-﻿using CsuNavigatorBackend.ApplicationServices;
-using CsuNavigatorBackend.ApplicationServices.Dto;
+﻿using CsuNavigatorBackend.ApplicationServices.Dto;
+using CsuNavigatorBackend.ApplicationServices.Services;
 using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Services.Mappers;
+using CsuNavigatorBackend.Services.Requests.Auth;
 using CsuNavigatorBackend.Services.Services;
+using CsuNavigatorBackend.Services.Validators.Auth;
 using CsuNavigatorBackend.Services.Validators.Dto;
 using CsuNavigatorBackend.Services.Validators.Edges;
 using CsuNavigatorBackend.Services.Validators.Maps;
@@ -20,16 +22,24 @@ public static class DependencyInjection
             .AddScoped<CreateMapRequestValidator>()
             .AddScoped<CreatePointRequestValidator>()
             .AddScoped<UpdatePointRequestValidator>()
-            .AddScoped<CreateEdgeRequestValidator>();
+            .AddScoped<CreateEdgeRequestValidator>()
+            .AddScoped<MobileRegisterRequestValidator>();
 
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         => services.AddScoped<IMapService, MapService>()
             .AddScoped<IOrganizationService, OrganizationService>()
             .AddScoped<IPointService, PointService>()
-            .AddScoped<IEdgeService, EdgeService>();
+            .AddScoped<IEdgeService, EdgeService>()
+            .AddScoped<IAuthService, AuthService>()
+            .AddScoped<IProfileService, ProfileService>()
+            .AddScoped<ITokenService, TokenService>()
+            .AddScoped<IUserService, UserService>();
 
     public static IServiceCollection AddMappers(this IServiceCollection services)
         => services.AddScoped<IMapper<MarkerPoint, PointDto>, PointMapper>()
             .AddScoped<IMapper<Edge, EdgeDto>, EdgeMapper>()
-            .AddScoped<IMapper<Map, MapDto>, MapMapper>();
+            .AddScoped<IMapper<Map, MapDto>, MapMapper>()
+            .AddScoped<IMapper<MobileRegisterDto, ProfileDto>, MobileProfileDtoMapper>()
+            .AddScoped<IMapper<MobileRegisterDto, UserDto>, MobileUserDtoMapper>()
+            .AddScoped<IMapper<MobileRegisterRequest, MobileRegisterDto>, MobileRegisterDtoMapper>();
 }

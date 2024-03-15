@@ -1,5 +1,5 @@
 ﻿using CsuNavigatorBackend.Api.Exceptions;
-using CsuNavigatorBackend.ApplicationServices;
+using CsuNavigatorBackend.ApplicationServices.Services;
 using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Domain.Errors;
 using CsuNavigatorBackend.Services.Requests.Edges;
