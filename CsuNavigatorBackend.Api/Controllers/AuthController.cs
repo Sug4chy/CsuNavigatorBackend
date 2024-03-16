@@ -11,26 +11,28 @@ namespace CsuNavigatorBackend.Api.Controllers;
 
 [ApiController]
 [Route("/[controller]")]
-public class AuthController(IAuthService authService) : ControllerBase
+public class AuthController(
+    IAuthService authService,
+    IUserService userService) : ControllerBase
 {
     [HttpPost("register/mobile")]
     public async Task<MobileRegisterResponse> MobileRegister(
         [FromBody] MobileRegisterRequest request,
         [FromServices] MobileRegisterRequestValidator validator,
-        [FromServices] IMapper<MobileRegisterRequest, MobileRegisterDto> mobileRegisterDtoMapper,
+        [FromServices] IMapper<MobileRegisterRequest, UserDto> mobileUserDtoMapper,
+        [FromServices] IMapper<MobileRegisterRequest, ProfileDto> mobileProfileDtoMapper,
         CancellationToken ct = default)
     {
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
-        string token = await authService.RegisterMobileUserAsync(mobileRegisterDtoMapper.Map(request), ct);
-        if (token.Length == 0)
-        {
-            throw new ConflictException
+        var user = await userService.CreateUserAsync(mobileUserDtoMapper.Map(request), ct)
+            ?? throw new ConflictException
             {
                 Error = UserErrors.UserWithUsernameAlreadyExist(request.Username)
             };
-        }
+        
+        string token = await authService.RegisterMobileUserAsync(user, mobileProfileDtoMapper.Map(request), ct);
         
         return new MobileRegisterResponse
         {

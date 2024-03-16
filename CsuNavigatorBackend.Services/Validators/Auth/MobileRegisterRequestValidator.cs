@@ -16,6 +16,6 @@ public class MobileRegisterRequestValidator : AbstractValidator<MobileRegisterRe
         RuleFor(request => request.Username)
             .NotEmpty();
         RuleFor(request => request.Password)
-            .NotEmpty();
+            .SetValidator(new PasswordValidator());
     }
 }

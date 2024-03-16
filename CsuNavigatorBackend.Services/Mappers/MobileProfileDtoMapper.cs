@@ -1,11 +1,12 @@
 ﻿using CsuNavigatorBackend.ApplicationServices.Dto;
 using CsuNavigatorBackend.ApplicationServices.Services;
+using CsuNavigatorBackend.Services.Requests.Auth;
 
 namespace CsuNavigatorBackend.Services.Mappers;
 
-public class MobileProfileDtoMapper : IMapper<MobileRegisterDto, ProfileDto>
+public class MobileProfileDtoMapper : IMapper<MobileRegisterRequest, ProfileDto>
 {
-    public ProfileDto Map(MobileRegisterDto from)
+    public ProfileDto Map(MobileRegisterRequest from)
         => new()
         {
             Name = from.Name,

@@ -23,7 +23,6 @@ public class UserService(
             Password = hasher.HashPassword(dto.Password, out byte[] _),
             Role = dto.Role
         };
-        await context.Users.AddAsync(user, ct);
         return user;
     }
 }

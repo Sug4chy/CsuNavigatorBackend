@@ -40,7 +40,6 @@ public static class DependencyInjection
         => services.AddScoped<IMapper<MarkerPoint, PointDto>, PointMapper>()
             .AddScoped<IMapper<Edge, EdgeDto>, EdgeMapper>()
             .AddScoped<IMapper<Map, MapDto>, MapMapper>()
-            .AddScoped<IMapper<MobileRegisterDto, ProfileDto>, MobileProfileDtoMapper>()
-            .AddScoped<IMapper<MobileRegisterDto, UserDto>, MobileUserDtoMapper>()
-            .AddScoped<IMapper<MobileRegisterRequest, MobileRegisterDto>, MobileRegisterDtoMapper>();
+            .AddScoped<IMapper<MobileRegisterRequest, ProfileDto>, MobileProfileDtoMapper>()
+            .AddScoped<IMapper<MobileRegisterRequest, UserDto>, MobileUserDtoMapper>();
 }

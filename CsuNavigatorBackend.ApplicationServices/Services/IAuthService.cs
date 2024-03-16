@@ -1,8 +1,9 @@
 ﻿using CsuNavigatorBackend.ApplicationServices.Dto;
+using CsuNavigatorBackend.Domain.Entities;
 
 namespace CsuNavigatorBackend.ApplicationServices.Services;
 
 public interface IAuthService
 {
-    Task<string> RegisterMobileUserAsync(MobileRegisterDto dto, CancellationToken ct = default);
+    Task<string> RegisterMobileUserAsync(User user, ProfileDto profileDto, CancellationToken ct = default);
 }
