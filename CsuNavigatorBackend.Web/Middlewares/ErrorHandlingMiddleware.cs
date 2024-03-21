@@ -1,10 +1,10 @@
 ﻿using System.Net.Mime;
 using System.Text.Json;
-using CsuNavigatorBackend.Api.Exceptions;
-using CsuNavigatorBackend.Api.Models;
 using CsuNavigatorBackend.Domain.Errors;
+using CsuNavigatorBackend.Web.Exceptions;
+using CsuNavigatorBackend.Web.Models;
 
-namespace CsuNavigatorBackend.Api.Middlewares;
+namespace CsuNavigatorBackend.Web.Middlewares;
 
 public class ErrorHandlingMiddleware(
     ILogger<ErrorHandlingMiddleware> logger

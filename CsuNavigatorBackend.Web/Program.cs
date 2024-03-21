@@ -1,4 +1,4 @@
-using CsuNavigatorBackend.Api;
+using CsuNavigatorBackend.Web;
 
 Host.CreateDefaultBuilder(args)
     .ConfigureWebHostDefaults(builder =>

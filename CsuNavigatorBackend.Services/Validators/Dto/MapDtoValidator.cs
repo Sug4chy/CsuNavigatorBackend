@@ -5,7 +5,7 @@ namespace CsuNavigatorBackend.Services.Validators.Dto;
 
 public class MapDtoValidator : AbstractValidator<MapDto>
 {
-    public MapDtoValidator()
+    public MapDtoValidator(EdgeDtoValidator edgeDtoValidator)
     {
         RuleFor(dto => dto.Id)
             .Null();
@@ -14,6 +14,6 @@ public class MapDtoValidator : AbstractValidator<MapDto>
         RuleFor(dto => dto.Description)
             .Must(s => s is null || s.Length != 0);
         RuleForEach(dto => dto.Edges)
-            .SetValidator(new EdgeDtoValidator());
+            .SetValidator(edgeDtoValidator);
     }
 }

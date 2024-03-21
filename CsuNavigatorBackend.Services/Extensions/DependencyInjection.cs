@@ -23,7 +23,8 @@ public static class DependencyInjection
             .AddScoped<CreatePointRequestValidator>()
             .AddScoped<UpdatePointRequestValidator>()
             .AddScoped<CreateEdgeRequestValidator>()
-            .AddScoped<MobileRegisterRequestValidator>();
+            .AddScoped<MobileRegisterRequestValidator>()
+            .AddScoped<LoginRequestValidator>();
 
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         => services.AddScoped<IMapService, MapService>()

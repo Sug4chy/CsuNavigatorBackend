@@ -1,6 +1,6 @@
 ﻿using CsuNavigatorBackend.ApplicationServices.Dto;
 
-namespace CsuNavigatorBackend.Api.Responses.Maps;
+namespace CsuNavigatorBackend.Web.Responses.Maps;
 
 public record GetMapByIdResponse
 {

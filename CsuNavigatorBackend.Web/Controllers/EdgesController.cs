@@ -1,12 +1,12 @@
-﻿using CsuNavigatorBackend.Api.Exceptions;
-using CsuNavigatorBackend.ApplicationServices.Services;
+﻿using CsuNavigatorBackend.ApplicationServices.Services;
 using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Domain.Errors;
 using CsuNavigatorBackend.Services.Requests.Edges;
 using CsuNavigatorBackend.Services.Validators.Edges;
+using CsuNavigatorBackend.Web.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CsuNavigatorBackend.Api.Controllers;
+namespace CsuNavigatorBackend.Web.Controllers;
 
 [ApiController]
 [Route("/api/maps/{mapId:guid}/[controller]")]

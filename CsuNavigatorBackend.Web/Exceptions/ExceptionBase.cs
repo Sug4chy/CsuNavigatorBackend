@@ -1,6 +1,6 @@
 ﻿using CsuNavigatorBackend.Domain.Errors;
 
-namespace CsuNavigatorBackend.Api.Exceptions;
+namespace CsuNavigatorBackend.Web.Exceptions;
 
 public abstract class ExceptionBase : Exception
 {

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsuNavigatorBackend.Api", "CsuNavigatorBackend.Api\CsuNavigatorBackend.Api.csproj", "{88CE951D-ABE9-447B-A28E-1BA72171CE17}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsuNavigatorBackend.Web", "CsuNavigatorBackend.Web\CsuNavigatorBackend.Web.csproj", "{88CE951D-ABE9-447B-A28E-1BA72171CE17}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsuNavigatorBackend.Domain", "CsuNavigatorBackend.Domain\CsuNavigatorBackend.Domain.csproj", "{5CFC5ED5-3CA1-4054-92B7-4619767BCC6F}"
 EndProject

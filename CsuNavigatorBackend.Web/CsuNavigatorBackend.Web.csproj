@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
-        <RootNamespace>CsuNavigatorBackend.Api</RootNamespace>
+        <RootNamespace>CsuNavigatorBackend.Web</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -25,4 +25,8 @@ public class UserService(
         };
         return user;
     }
+
+    public Task<User?> GetUserByUsernameAndRoleAsync(string username, Role role, CancellationToken ct = default)
+        => context.Users.FirstOrDefaultAsync(u => u.Username == username
+            && u.Role == role, ct);
 }

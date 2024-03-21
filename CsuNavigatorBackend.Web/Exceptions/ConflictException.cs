@@ -1,4 +1,4 @@
-﻿namespace CsuNavigatorBackend.Api.Exceptions;
+﻿namespace CsuNavigatorBackend.Web.Exceptions;
 
 public class ConflictException : ExceptionBase
 {

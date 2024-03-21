@@ -1,4 +1,4 @@
-﻿namespace CsuNavigatorBackend.Api.Responses.Auth;
+﻿namespace CsuNavigatorBackend.Web.Responses.Auth;
 
 public record MobileRegisterResponse
 {

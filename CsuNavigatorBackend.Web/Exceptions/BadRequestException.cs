@@ -1,7 +1,7 @@
 ﻿using CsuNavigatorBackend.Domain.Errors;
 using FluentValidation.Results;
 
-namespace CsuNavigatorBackend.Api.Exceptions;
+namespace CsuNavigatorBackend.Web.Exceptions;
 
 public class BadRequestException : ExceptionBase
 {

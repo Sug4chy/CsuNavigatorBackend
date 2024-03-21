@@ -6,9 +6,9 @@ namespace CsuNavigatorBackend.Services.Validators.Points;
 
 public class CreatePointRequestValidator : AbstractValidator<CreatePointRequest>
 {
-    public CreatePointRequestValidator()
+    public CreatePointRequestValidator(PointDtoValidator pointDtoValidator)
     {
         RuleFor(request => request.Point)
-            .SetValidator(new PointDtoValidator());
+            .SetValidator(pointDtoValidator);
     }
 }

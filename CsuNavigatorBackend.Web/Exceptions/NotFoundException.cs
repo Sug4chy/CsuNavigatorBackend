@@ -1,6 +1,6 @@
 ﻿using CsuNavigatorBackend.Domain.Errors;
 
-namespace CsuNavigatorBackend.Api.Exceptions;
+namespace CsuNavigatorBackend.Web.Exceptions;
 
 public class NotFoundException : ExceptionBase
 {

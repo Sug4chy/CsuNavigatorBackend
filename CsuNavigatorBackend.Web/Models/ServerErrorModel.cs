@@ -1,5 +1,5 @@
 ﻿using CsuNavigatorBackend.Domain.Errors;
 
-namespace CsuNavigatorBackend.Api.Models;
+namespace CsuNavigatorBackend.Web.Models;
 
 public record ServerErrorModel(Error Error);

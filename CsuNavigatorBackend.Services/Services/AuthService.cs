@@ -8,9 +8,10 @@ namespace CsuNavigatorBackend.Services.Services;
 public class AuthService(
     IProfileService profileService,
     ITokenService tokenService,
+    IPasswordHasher passwordHasher,
     NavigatorDbContext context) : IAuthService
 {
-    public async Task<string> RegisterMobileUserAsync(User user, ProfileDto profileDto, 
+    public async Task<string> RegisterMobileUserAsync(User user, ProfileDto profileDto,
         CancellationToken ct = default)
     {
         await context.Users.AddAsync(user, ct);
@@ -19,4 +20,9 @@ public class AuthService(
 
         return tokenService.CreateJwtForUser(user);
     }
+
+    public string LoginUser(User user, string password)
+        => !passwordHasher.VerifyPassword(password, user.Password, Array.Empty<byte>())
+            ? string.Empty
+            : tokenService.CreateJwtForUser(user);
 }

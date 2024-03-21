@@ -1,14 +1,14 @@
-﻿using CsuNavigatorBackend.Api.Exceptions;
-using CsuNavigatorBackend.Api.Responses.Maps;
-using CsuNavigatorBackend.ApplicationServices.Dto;
+﻿using CsuNavigatorBackend.ApplicationServices.Dto;
 using CsuNavigatorBackend.ApplicationServices.Services;
 using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Domain.Errors;
 using CsuNavigatorBackend.Services.Requests.Maps;
 using CsuNavigatorBackend.Services.Validators.Maps;
+using CsuNavigatorBackend.Web.Exceptions;
+using CsuNavigatorBackend.Web.Responses.Maps;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CsuNavigatorBackend.Api.Controllers;
+namespace CsuNavigatorBackend.Web.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]

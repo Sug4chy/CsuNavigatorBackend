@@ -1,6 +1,6 @@
-﻿using CsuNavigatorBackend.Api.Middlewares;
+﻿using CsuNavigatorBackend.Web.Middlewares;
 
-namespace CsuNavigatorBackend.Api.Extensions;
+namespace CsuNavigatorBackend.Web.Extensions;
 
 public static class MiddlewareExtensions
 {
