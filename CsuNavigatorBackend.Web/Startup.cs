@@ -1,10 +1,12 @@
 ﻿using System.Text;
 using CsuNavigatorBackend.Database.Context;
 using CsuNavigatorBackend.Database.Context.Interceptors;
+using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Services.ConfigOptions;
 using CsuNavigatorBackend.Services.Extensions;
 using CsuNavigatorBackend.Web.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -49,9 +51,10 @@ public class Startup(IConfiguration config, IWebHostEnvironment env)
                 };
             });
         services.AddAuthorization();
+        services.AddIdentity<User, IdentityRole>();
 
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerWithAuth();
 
         services.AddErrorHandling();
     }
