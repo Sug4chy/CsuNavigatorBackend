@@ -13,7 +13,6 @@ public class EdgeService(NavigatorDbContext context) : IEdgeService
             Point1Id = point1Id,
             Point2Id = point2Id
         };
-        map.Edges!.Add(edge);
         var point1 = map.PointsWithoutEdges!.FirstOrDefault(mp => mp.Id == point1Id);
         if (point1 is not null)
         {
@@ -25,7 +24,8 @@ public class EdgeService(NavigatorDbContext context) : IEdgeService
         {
             map.PointsWithoutEdges!.Remove(point2);
         }
-
+        
+        map.Edges!.Add(edge);
         await context.SaveChangesAsync(ct);
     }
 

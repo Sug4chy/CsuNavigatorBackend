@@ -37,7 +37,7 @@ public class UserService(
         => context.Users
             .FirstOrDefaultAsync(u => u.Id == id, ct);
 
-    public bool CheckIfUserIsOrganizationAccount(User user, string orgName, CancellationToken ct = default)
+    public bool CheckIfUserIsOrganizationAccount(User user, string orgName)
         => user.Role == Role.DesktopUser && user.Username == orgName;
 
     public async Task<bool> CheckIfUserIsOrganizationAccountAsync(User user, Guid orgId, 
