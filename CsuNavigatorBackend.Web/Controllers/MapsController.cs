@@ -51,7 +51,6 @@ public class MapsController(
                 Error = AuthErrors.UserIsNotOrganizationAccount(organization.Name)
             };
         }
-
         await mapService.CreateMapAsync(request.Map, organization, ct);
     }
 

@@ -35,7 +35,8 @@ public class EdgesController(
         var map = await mapService.GetFullMapByIdAsync(mapId, ct);
         NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
 
-        if (!await edgeService.CheckIfEdgeExistAsync(request.Point1Id, request.Point2Id, map!.Id, ct))
+        if (map!.Edges.Any(e => (e.Point1Id == request.Point1Id && e.Point2Id == request.Point2Id) ||
+                                (e.Point1Id == request.Point2Id && e.Point2Id == request.Point1Id)))
         {
             throw new ConflictException
             {

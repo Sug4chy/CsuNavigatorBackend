@@ -7,12 +7,6 @@ namespace CsuNavigatorBackend.Services.Services;
 
 public class EdgeService(NavigatorDbContext context) : IEdgeService
 {
-    public Task<bool> CheckIfEdgeExistAsync(Guid point1Id, Guid point2Id, Guid mapId, CancellationToken ct = default)
-        => context.Maps
-            .Where(m => m.Id == mapId && m.Edges != null)
-            .SelectMany(m => m.Edges)
-            .AnyAsync(e => (e.Point1Id == point1Id && e.Point2Id == point2Id) || (e.Point1Id == point2Id && e.Point2Id == point1Id), ct);
-    
     public async Task CreateEdgeAsync(Guid point1Id, Guid point2Id, Map map, CancellationToken ct = default)
     {
         var edge = new Edge
