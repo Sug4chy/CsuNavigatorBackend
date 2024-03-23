@@ -6,4 +6,5 @@ public interface IEdgeService
 {
     Task CreateEdgeAsync(Guid point1Id, Guid point2Id, Map map, CancellationToken ct = default);
     Task DeleteEdgeAsync(Edge edge, Map map, CancellationToken ct = default);
+    Task<bool> CheckIfEdgeExistAsync(Guid point1Id, Guid point2Id, Guid mapId, CancellationToken ct = default);
 }

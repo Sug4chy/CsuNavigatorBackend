@@ -29,6 +29,10 @@ public class MapService(NavigatorDbContext context) : IMapService
         => context.Maps
             .FirstOrDefaultAsync(m => m.Id == mapId, ct);
     
+    public Task<bool> CheckIfMapExistByTitleAsync(String title, CancellationToken ct = default)
+        => context.Maps.AnyAsync(m => m.Title == title, ct);
+
+    
     public async Task CreateMapAsync(MapDto dto, Organization organization, CancellationToken ct = default)
     {
         var edges = dto.Edges.Select(edgeDto => new Edge

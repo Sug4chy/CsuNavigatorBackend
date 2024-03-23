@@ -34,6 +34,14 @@ public class EdgesController(
 
         var map = await mapService.GetFullMapByIdAsync(mapId, ct);
         NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+
+        if (!await edgeService.CheckIfEdgeExistAsync(request.Point1Id, request.Point2Id, map!.Id, ct))
+        {
+            throw new ConflictException
+            {
+                Error = EdgeErrors.EdgeWithSuchPointsAlreadyExists(request.Point1Id, request.Point2Id)
+            };
+        }
         if (!await userService.CheckIfUserIsOrganizationAccountAsync(currentUser, map!.OrganizationId, ct))
         {
             throw new ForbiddenException
