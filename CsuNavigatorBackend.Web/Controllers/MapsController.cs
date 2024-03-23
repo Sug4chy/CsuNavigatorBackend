@@ -36,6 +36,14 @@ public class MapsController(
             .GetOrganizationByNameAsync(request.OrganizationName, ct);
         NotFoundException.ThrowIfNull(organization,
             OrganizationErrors.NoSuchOrganizationWithName(request.OrganizationName));
+
+        if (!await mapService.CheckIfMapExistByTitleAsync(request.Map.Title, ct))
+        {
+            throw new ConflictException
+            {
+                Error = MapErrors.MapWithSuchNameAlreadyExists(request.Map.Title)
+            };
+        }
         if (!userService.CheckIfUserIsOrganizationAccount(currentUser, organization!.Name))
         {
             throw new ForbiddenException
@@ -43,7 +51,6 @@ public class MapsController(
                 Error = AuthErrors.UserIsNotOrganizationAccount(organization.Name)
             };
         }
-
         await mapService.CreateMapAsync(request.Map, organization, ct);
     }
 

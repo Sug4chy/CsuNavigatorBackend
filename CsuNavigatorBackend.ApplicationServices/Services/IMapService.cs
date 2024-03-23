@@ -12,4 +12,6 @@ public interface IMapService
     Task CreateMapAsync(MapDto dto, Organization organization, CancellationToken ct = default);
     Task UpdateMapAsync(Map map, string title, string? description, CancellationToken ct = default);
     Task DeleteMapAsync(Map map, CancellationToken ct = default);
+    Task<bool> CheckIfMapExistByTitleAsync(String title, CancellationToken ct = default);
+
 }
