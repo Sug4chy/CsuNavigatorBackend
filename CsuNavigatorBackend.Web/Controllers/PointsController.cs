@@ -1,0 +1,104 @@
+﻿using CsuNavigatorBackend.ApplicationServices.Services;
+using CsuNavigatorBackend.Domain.Entities;
+using CsuNavigatorBackend.Domain.Errors;
+using CsuNavigatorBackend.Services.Requests.Points;
+using CsuNavigatorBackend.Services.Validators.Points;
+using CsuNavigatorBackend.Web.Auth;
+using CsuNavigatorBackend.Web.Exceptions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CsuNavigatorBackend.Web.Controllers;
+
+[ApiController]
+[Route("/api/maps/{mapId:guid}/[controller]")]
+public class PointsController(
+    IMapService mapService,
+    IPointService pointService,
+    ICurrentUserAccessor userAccessor,
+    IUserService userService
+) : ControllerBase
+{
+    [Authorize(Policy = Policies.OnlyDesktopUsers)]
+    [HttpPost]
+    public async Task CreatePoint(
+        [FromRoute] Guid mapId,
+        [FromBody] CreatePointRequest request,
+        [FromServices] CreatePointRequestValidator validator,
+        CancellationToken ct = default)
+    {
+        var currentUser = await userAccessor.GetCurrentUserAsync(ct);
+        
+        var validationResult = await validator.ValidateAsync(request, ct);
+        BadRequestException.ThrowByValidationResult(validationResult);
+
+        var map = await mapService.GetMapOnlyWithPointsByIdAsync(mapId, ct);
+        NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+        if (!await userService.CheckIfUserIsOrganizationAccountAsync(currentUser, map!.OrganizationId, ct))
+        {
+            throw new ForbiddenException
+            {
+                Error = AuthErrors.UserIsNotCreatorOfMap(mapId)
+            };
+        }
+
+        map.PointsWithoutEdges ??= new List<MarkerPoint>();
+        await pointService.CreateMarkerPointAsync(request.Point, map, ct);
+    }
+
+    [Authorize(Policy = Policies.OnlyDesktopUsers)]
+    [HttpPut("{pointId:guid}")]
+    public async Task UpdatePoint(
+        [FromRoute] Guid mapId,
+        [FromRoute] Guid pointId,
+        [FromBody] UpdatePointRequest request,
+        [FromServices] UpdatePointRequestValidator validator,
+        CancellationToken ct = default)
+    {
+        var currentUser = await userAccessor.GetCurrentUserAsync(ct);
+        
+        var validationResult = await validator.ValidateAsync(request, ct);
+        BadRequestException.ThrowByValidationResult(validationResult);
+
+        var map = await mapService.GetMapByIdAsync(mapId, ct);
+        NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+        if (!await userService.CheckIfUserIsOrganizationAccountAsync(currentUser, map!.OrganizationId, ct))
+        {
+            throw new ForbiddenException
+            {
+                Error = AuthErrors.UserIsNotCreatorOfMap(mapId)
+            };
+        }
+
+        var point = await pointService.GetMarkerPointByIdAsync(pointId, ct);
+        NotFoundException.ThrowIfNull(point, MarkerPointErrors.NoSuchPointWithId(pointId));
+
+        await pointService.UpdateMarkerPointAsync(point!, request.UpdatedPoint, ct);
+    }
+
+    [Authorize(Policy = Policies.OnlyDesktopUsers)]
+    [HttpDelete("{pointId:guid}")]
+    public async Task DeletePoint(
+        [FromRoute] Guid mapId,
+        [FromRoute] Guid pointId,
+        CancellationToken ct = default)
+    {
+        var currentUser = await userAccessor.GetCurrentUserAsync(ct);
+        
+        var map = await mapService.GetMapOnlyWithPointsByIdAsync(mapId, ct);
+        NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+        if (!await userService.CheckIfUserIsOrganizationAccountAsync(currentUser, map!.OrganizationId, ct))
+        {
+            throw new ForbiddenException
+            {
+                Error = AuthErrors.UserIsNotCreatorOfMap(mapId)
+            };
+        }
+
+        var point = await pointService.GetMarkerPointByIdAsync(pointId, ct);
+        NotFoundException.ThrowIfNull(point, MarkerPointErrors.NoSuchPointWithId(pointId));
+        
+        map.PointsWithoutEdges ??= new List<MarkerPoint>();
+        await pointService.DeleteMarkerPointAsync(point!, map, ct);
+    }
+}

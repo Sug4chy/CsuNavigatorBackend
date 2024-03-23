@@ -6,10 +6,10 @@ namespace CsuNavigatorBackend.Services.Validators.Maps;
 
 public class CreateMapRequestValidator : AbstractValidator<CreateMapRequest>
 {
-    public CreateMapRequestValidator()
+    public CreateMapRequestValidator(MapDtoValidator mapDtoValidator)
     {
         RuleFor(request => request.Map)
-            .SetValidator(new MapDtoValidator());
+            .SetValidator(mapDtoValidator);
         RuleFor(request => request.OrganizationName)
             .NotEmpty();
     }

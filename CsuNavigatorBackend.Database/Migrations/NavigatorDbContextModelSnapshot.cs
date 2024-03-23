@@ -225,9 +225,6 @@ namespace CsuNavigatorBackend.Database.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CurrentRefreshToken")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("LastlyEditedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -237,9 +234,6 @@ namespace CsuNavigatorBackend.Database.Migrations
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("RefreshTokenExpiration")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Role")
                         .IsRequired()

@@ -1,5 +1,5 @@
-﻿using CsuNavigatorBackend.ApplicationServices;
-using CsuNavigatorBackend.ApplicationServices.Dto;
+﻿using CsuNavigatorBackend.ApplicationServices.Dto;
+using CsuNavigatorBackend.ApplicationServices.Services;
 using CsuNavigatorBackend.Database.Context;
 using CsuNavigatorBackend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ public class MapService(NavigatorDbContext context) : IMapService
 {
     public Task<bool> CheckIfMapExistAsync(Guid mapId, CancellationToken ct = default)
         => context.Maps.AnyAsync(m => m.Id == mapId, ct);
-
+    
     public Task<Map?> GetFullMapByIdAsync(Guid mapId, CancellationToken ct = default)
         => context.Maps
             .Include(m => m.Edges)!

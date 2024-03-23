@@ -6,9 +6,9 @@ namespace CsuNavigatorBackend.Services.Validators.Points;
 
 public class UpdatePointRequestValidator : AbstractValidator<UpdatePointRequest>
 {
-    public UpdatePointRequestValidator()
+    public UpdatePointRequestValidator(PointDtoValidator pointDtoValidator)
     {
         RuleFor(request => request.UpdatedPoint)
-            .SetValidator(new PointDtoValidator());
+            .SetValidator(pointDtoValidator);
     }
 }
