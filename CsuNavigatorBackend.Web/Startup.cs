@@ -1,14 +1,9 @@
-﻿using System.Text;
-using CsuNavigatorBackend.Database.Context;
+﻿using CsuNavigatorBackend.Database.Context;
 using CsuNavigatorBackend.Database.Context.Interceptors;
-using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Services.ConfigOptions;
 using CsuNavigatorBackend.Services.Extensions;
 using CsuNavigatorBackend.Web.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CsuNavigatorBackend.Web;
 
@@ -33,25 +28,8 @@ public class Startup(IConfiguration config, IWebHostEnvironment env)
         services.AddApplicationServices();
         services.AddMappers();
 
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                var jwtOptions = config.GetSection(JwtConfigOptions.Location);
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = jwtOptions.GetValue<string>("Issuer"),
-                    ValidateAudience = true,
-                    ValidAudience = jwtOptions.GetValue<string>("Audience"),
-                    ValidateLifetime = true,
-                    IssuerSigningKey =
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                            jwtOptions.GetValue<string>("SymmetricSecurityKey")!)),
-                    ValidateIssuerSigningKey = true
-                };
-            });
+        services.AddJwtAuthentication(config);
         services.AddAuthorization();
-        services.AddIdentity<User, IdentityRole>();
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerWithAuth();

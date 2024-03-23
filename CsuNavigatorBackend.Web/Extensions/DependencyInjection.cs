@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using CsuNavigatorBackend.Services.ConfigOptions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace CsuNavigatorBackend.Web.Extensions;
@@ -34,4 +38,24 @@ public static class DependencyInjection
                 }
             });
         });
+
+    public static AuthenticationBuilder AddJwtAuthentication(this IServiceCollection services, 
+        IConfiguration config)
+        => services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                var jwtOptions = config.GetSection(JwtConfigOptions.Location);
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtOptions.GetValue<string>("Issuer"),
+                    ValidateAudience = true,
+                    ValidAudience = jwtOptions.GetValue<string>("Audience"),
+                    ValidateLifetime = true,
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                            jwtOptions.GetValue<string>("SymmetricSecurityKey")!)),
+                    ValidateIssuerSigningKey = true
+                };
+            });
 }

@@ -22,7 +22,7 @@ public class AuthService(
     }
 
     public string LoginUser(User user, string password)
-        => !passwordHasher.VerifyPassword(password, user.Password, Array.Empty<byte>())
+        => !passwordHasher.VerifyPassword(password, user.Password)
             ? string.Empty
             : tokenService.CreateJwtForUser(user);
 }

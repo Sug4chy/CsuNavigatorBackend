@@ -20,13 +20,15 @@ public class UserService(
         var user = new User
         {
             Username = dto.Username,
-            Password = hasher.HashPassword(dto.Password, out byte[] _),
+            Password = hasher.HashPassword(dto.Password),
             Role = dto.Role
         };
         return user;
     }
 
     public Task<User?> GetUserByUsernameAndRoleAsync(string username, Role role, CancellationToken ct = default)
-        => context.Users.FirstOrDefaultAsync(u => u.Username == username
+        => context.Users
+            .Include(u => u.Profile)
+            .FirstOrDefaultAsync(u => u.Username == username
             && u.Role == role, ct);
 }
