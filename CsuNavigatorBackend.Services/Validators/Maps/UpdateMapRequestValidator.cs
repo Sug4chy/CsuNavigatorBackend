@@ -1,15 +1,15 @@
 using CsuNavigatorBackend.Services.Requests.Maps;
-using CsuNavigatorBackend.Services.Validators.Dto;
 using FluentValidation;
 
 namespace CsuNavigatorBackend.Services.Validators.Maps;
 
 public class UpdateMapRequestValidator : AbstractValidator<UpdateMapRequest>
 {
-    public UpdateMapRequestValidator(MapDtoValidator mapDtoValidator)
+    public UpdateMapRequestValidator()
     {
-        RuleFor(request => request.UpdatedMap)
-            .SetValidator(mapDtoValidator);
+        RuleFor(request => request.NewTitle)
+            .NotEmpty();
+        RuleFor(request => request.NewDescription)
+            .Must(s => s is null || s.Length != 0);
     }
-    
 }

@@ -86,7 +86,7 @@ public class MapsController(
             };
         }
 
-        await mapService.UpdateMapAsync(map, request.UpdatedMap, ct);
+        await mapService.UpdateMapAsync(map, request.NewTitle, request.NewDescription, ct);
     }
 
     [Authorize(Policy = Policies.OnlyDesktopUsers)]

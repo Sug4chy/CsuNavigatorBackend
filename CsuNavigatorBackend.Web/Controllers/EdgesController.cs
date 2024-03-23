@@ -15,7 +15,6 @@ namespace CsuNavigatorBackend.Web.Controllers;
 public class EdgesController(
     IMapService mapService,
     IEdgeService edgeService,
-    IPointService pointService,
     ICurrentUserAccessor userAccessor,
     IUserService userService) : ControllerBase
 {
@@ -41,13 +40,7 @@ public class EdgesController(
                 Error = AuthErrors.UserIsNotCreatorOfMap(mapId)
             };
         }
-
-        var point1 = await pointService.GetMarkerPointByIdAsync(request.Point1Id, ct);
-        NotFoundException.ThrowIfNull(point1, MarkerPointErrors.NoSuchPointWithId(request.Point1Id));
         
-        var point2 = await pointService.GetMarkerPointByIdAsync(request.Point2Id, ct);
-        NotFoundException.ThrowIfNull(point2, MarkerPointErrors.NoSuchPointWithId(request.Point2Id));
-
         map.Edges ??= new List<Edge>();
         await edgeService.CreateEdgeAsync(request.Point1Id, request.Point2Id, map, ct);
     }

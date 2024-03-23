@@ -60,10 +60,10 @@ public class MapService(NavigatorDbContext context) : IMapService
         await context.SaveChangesAsync(ct);
     }
 
-    public async Task UpdateMapAsync(Map map, MapDto dto, CancellationToken ct = default)
+    public async Task UpdateMapAsync(Map map, string title, string? description, CancellationToken ct = default)
     {
-        map.Title = dto.Title;
-        map.Description = dto.Description;
+        map.Title = title;
+        map.Description = description;
 
         context.Maps.Update(map);
         await context.SaveChangesAsync(ct);
