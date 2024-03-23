@@ -9,4 +9,7 @@ public class OrganizationService(NavigatorDbContext context) : IOrganizationServ
 {
     public Task<Organization?> GetOrganizationByNameAsync(string name, CancellationToken ct = default)
         => context.Organizations.FirstOrDefaultAsync(o => o.Name == name, ct);
+
+    public Task<Organization?> GetOrganizationByIdAsync(Guid orgId, CancellationToken ct = default)
+        => context.Organizations.FirstOrDefaultAsync(o => o.Id == orgId, ct);
 }

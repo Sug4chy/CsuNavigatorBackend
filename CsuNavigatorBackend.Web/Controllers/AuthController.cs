@@ -3,6 +3,7 @@ using CsuNavigatorBackend.ApplicationServices.Services;
 using CsuNavigatorBackend.Domain.Errors;
 using CsuNavigatorBackend.Services.Requests.Auth;
 using CsuNavigatorBackend.Services.Validators.Auth;
+using CsuNavigatorBackend.Web.Auth;
 using CsuNavigatorBackend.Web.Exceptions;
 using CsuNavigatorBackend.Web.Responses.Auth;
 using Microsoft.AspNetCore.Mvc;

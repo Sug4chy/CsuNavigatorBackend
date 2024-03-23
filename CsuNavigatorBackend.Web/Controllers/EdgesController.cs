@@ -3,7 +3,9 @@ using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Domain.Errors;
 using CsuNavigatorBackend.Services.Requests.Edges;
 using CsuNavigatorBackend.Services.Validators.Edges;
+using CsuNavigatorBackend.Web.Auth;
 using CsuNavigatorBackend.Web.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CsuNavigatorBackend.Web.Controllers;
@@ -12,8 +14,11 @@ namespace CsuNavigatorBackend.Web.Controllers;
 [Route("/api/maps/{mapId:guid}/[controller]")]
 public class EdgesController(
     IMapService mapService,
-    IEdgeService edgeService) : ControllerBase
+    IEdgeService edgeService,
+    ICurrentUserAccessor userAccessor,
+    IUserService userService) : ControllerBase
 {
+    [Authorize(Policy = Policies.OnlyDesktopUsers)]
     [HttpPost]
     public async Task CreateEdge(
         [FromRoute] Guid mapId,
@@ -21,26 +26,45 @@ public class EdgesController(
         [FromServices] CreateEdgeRequestValidator validator,
         CancellationToken ct = default)
     {
+        var currentUser = await userAccessor.GetCurrentUserAsync(ct);
+        
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
         var map = await mapService.GetFullMapByIdAsync(mapId, ct);
         NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+        if (!await userService.CheckIfUserIsOrganizationAccountAsync(currentUser, map!.OrganizationId, ct))
+        {
+            throw new ForbiddenException
+            {
+                Error = AuthErrors.UserIsNotCreatorOfMap(mapId)
+            };
+        }
 
-        map!.Edges ??= new List<Edge>();
+        map.Edges ??= new List<Edge>();
         await edgeService.CreateEdgeAsync(request.Point1Id, request.Point2Id, map, ct);
     }
 
+    [Authorize(Policy = Policies.OnlyDesktopUsers)]
     [HttpDelete("{edgeId:guid}")]
     public async Task DeleteEdge(
         [FromRoute] Guid mapId,
         [FromRoute] Guid edgeId,
         CancellationToken ct = default)
     {
+        var currentUser = await userAccessor.GetCurrentUserAsync(ct);
+        
         var map = await mapService.GetFullMapByIdAsync(mapId, ct);
         NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
+        if (!await userService.CheckIfUserIsOrganizationAccountAsync(currentUser, map!.OrganizationId, ct))
+        {
+            throw new ForbiddenException
+            {
+                Error = AuthErrors.UserIsNotCreatorOfMap(mapId)
+            };
+        }
 
-        var edge = map!.Edges?.FirstOrDefault(e => e.Id == edgeId);
+        var edge = map.Edges?.FirstOrDefault(e => e.Id == edgeId);
         NotFoundException.ThrowIfNull(edge, EdgeErrors.NoSuchEdgeWithId(edgeId));
 
         await edgeService.DeleteEdgeAsync(edge!, map, ct);

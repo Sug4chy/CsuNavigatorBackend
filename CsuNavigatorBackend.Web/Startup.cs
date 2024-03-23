@@ -1,8 +1,13 @@
-﻿using CsuNavigatorBackend.Database.Context;
+﻿using System.Security.Claims;
+using CsuNavigatorBackend.Database.Context;
 using CsuNavigatorBackend.Database.Context.Interceptors;
+using CsuNavigatorBackend.Domain.Entities;
 using CsuNavigatorBackend.Services.ConfigOptions;
 using CsuNavigatorBackend.Services.Extensions;
+using CsuNavigatorBackend.Web.Auth;
 using CsuNavigatorBackend.Web.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace CsuNavigatorBackend.Web;
@@ -22,14 +27,28 @@ public class Startup(IConfiguration config, IWebHostEnvironment env)
             builder.UseNpgsql(config.GetConnectionString("DefaultConnection"))
                 .AddInterceptors(updateAuditableEntitiesInterceptor);
         });
-        
+
+        services.AddHttpContextAccessor();
+        services.AddCurrentUserAccessor();
         services.AddControllers();
         services.AddValidators();
         services.AddApplicationServices();
         services.AddMappers();
 
         services.AddJwtAuthentication(config);
-        services.AddAuthorization();
+        services.AddAuthorization(auth =>
+        {
+            auth.AddPolicy(Policies.OnlyAdmins, policy => 
+                policy.RequireClaim(ClaimTypes.Role, Role.AdminUser.ToString()));
+            auth.AddPolicy(Policies.OnlyDesktopUsers, policy => 
+                policy.RequireClaim(ClaimTypes.Role, Role.DesktopUser.ToString()));
+            
+            auth.AddPolicy(Policies.BearerDefault, new AuthorizationPolicyBuilder()
+                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                .RequireAuthenticatedUser()
+                .Build());
+            auth.DefaultPolicy = auth.GetPolicy(Policies.BearerDefault)!;
+        });
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerWithAuth();

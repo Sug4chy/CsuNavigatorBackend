@@ -8,7 +8,8 @@ namespace CsuNavigatorBackend.Services.Services;
 
 public class UserService(
     NavigatorDbContext context,
-    IPasswordHasher hasher) : IUserService
+    IPasswordHasher hasher,
+    IOrganizationService organizationService) : IUserService
 {
     public async Task<User?> CreateUserAsync(UserDto dto, CancellationToken ct = default)
     {
@@ -31,4 +32,18 @@ public class UserService(
             .Include(u => u.Profile)
             .FirstOrDefaultAsync(u => u.Username == username
             && u.Role == role, ct);
+
+    public Task<User?> GetUserByIdAsync(Guid id, CancellationToken ct = default)
+        => context.Users
+            .FirstOrDefaultAsync(u => u.Id == id, ct);
+
+    public bool CheckIfUserIsOrganizationAccount(User user, string orgName, CancellationToken ct = default)
+        => user.Role == Role.DesktopUser && user.Username == orgName;
+
+    public async Task<bool> CheckIfUserIsOrganizationAccountAsync(User user, Guid orgId, 
+        CancellationToken ct = default)
+    {
+        var organization = await organizationService.GetOrganizationByIdAsync(orgId, ct);
+        return organization is not null && user.Role == Role.DesktopUser && organization.Name == user.Username;
+    }
 }

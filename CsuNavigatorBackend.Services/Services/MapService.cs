@@ -10,7 +10,7 @@ public class MapService(NavigatorDbContext context) : IMapService
 {
     public Task<bool> CheckIfMapExistAsync(Guid mapId, CancellationToken ct = default)
         => context.Maps.AnyAsync(m => m.Id == mapId, ct);
-
+    
     public Task<Map?> GetFullMapByIdAsync(Guid mapId, CancellationToken ct = default)
         => context.Maps
             .Include(m => m.Edges)!

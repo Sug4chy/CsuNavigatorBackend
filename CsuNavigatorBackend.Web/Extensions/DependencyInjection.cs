@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using CsuNavigatorBackend.Services.ConfigOptions;
+using CsuNavigatorBackend.Web.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -58,4 +59,7 @@ public static class DependencyInjection
                     ValidateIssuerSigningKey = true
                 };
             });
+
+    public static IServiceCollection AddCurrentUserAccessor(this IServiceCollection services)
+        => services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
 }
