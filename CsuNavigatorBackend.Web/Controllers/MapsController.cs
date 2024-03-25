@@ -44,6 +44,7 @@ public class MapsController(
                 Error = MapErrors.MapWithSuchNameAlreadyExists(request.Map.Title)
             };
         }
+
         if (!userService.CheckIfUserIsOrganizationAccount(currentUser, organization!.Name))
         {
             throw new ForbiddenException
@@ -51,6 +52,7 @@ public class MapsController(
                 Error = AuthErrors.UserIsNotOrganizationAccount(organization.Name)
             };
         }
+
         await mapService.CreateMapAsync(request.Map, organization, ct);
     }
 
@@ -79,7 +81,7 @@ public class MapsController(
         CancellationToken ct = default)
     {
         var currentUser = await userAccessor.GetCurrentUserAsync(ct);
-        
+
         var validationResult = await validator.ValidateAsync(request, ct);
         BadRequestException.ThrowByValidationResult(validationResult);
 
@@ -103,7 +105,7 @@ public class MapsController(
         CancellationToken ct = default)
     {
         var currentUser = await userAccessor.GetCurrentUserAsync(ct);
-        
+
         var map = await mapService.GetFullMapByIdAsync(mapId, ct);
         NotFoundException.ThrowIfNull(map, MapErrors.NoSuchMapWithId(mapId));
         if (!await userService.CheckIfUserIsOrganizationAccountAsync(currentUser, map!.OrganizationId, ct))

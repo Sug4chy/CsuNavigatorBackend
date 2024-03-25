@@ -1,7 +1,6 @@
 ﻿using CsuNavigatorBackend.ApplicationServices.Services;
 using CsuNavigatorBackend.Database.Context;
 using CsuNavigatorBackend.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace CsuNavigatorBackend.Services.Services;
 
